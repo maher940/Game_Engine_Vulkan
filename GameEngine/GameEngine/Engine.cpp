@@ -16,6 +16,7 @@ namespace GameEngine
 	void Engine::InitVulkan()
 	{
 		CreateInstance();
+		SetupDebugCallback();
 	}
 	void Engine::CreateInstance()
 	{
@@ -39,8 +40,18 @@ namespace GameEngine
 		createInfo.pNext = nullptr;
 		createInfo.flags = 0;
 		createInfo.pApplicationInfo = &appinfo;
-		createInfo.enabledLayerCount = 0;
-		createInfo.ppEnabledLayerNames = nullptr;
+
+		if (enableValidationLayers)
+		{
+			createInfo.enabledLayerCount = validationLayers.size();
+			createInfo.ppEnabledLayerNames = validationLayers.data();
+		}
+		else
+		{
+			createInfo.enabledLayerCount = 0;
+			createInfo.ppEnabledLayerNames = nullptr;
+		}
+		
 
 		auto extensions = GetRequiredExtensions();
 		createInfo.enabledExtensionCount = extensions.size();
@@ -105,5 +116,27 @@ namespace GameEngine
 
 		return extensions;
 	}
+
+	void Engine::SetupDebugCallback()
+	{
+		if (!enableValidationLayers)
+		{
+			return;
+		}
+		VkDebugReportCallbackCreateInfoEXT createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
+		createInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
+		createInfo.pfnCallback = debugCallback;
+
+		if (CreateDebugReportCallBackEXT(instance, &createInfo, nullptr, callBack.replace()) != VK_SUCCESS)
+		{
+			throw std::runtime_error("Failed to setup debug callback");
+		}
+		else
+		{
+			std::cout << "Debug Callback setup successful" << std::endl;
+		}
+	}
+	
 }
 

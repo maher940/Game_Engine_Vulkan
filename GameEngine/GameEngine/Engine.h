@@ -19,8 +19,38 @@ namespace GameEngine
 
 		std::vector<const char*> GetRequiredExtensions();
 
-		VkResult CreateDebugReportCallBackEXT();
-		static void DestroyDebugReportCallBackEXT();
+		void SetupDebugCallback();
+
+		VkResult CreateDebugReportCallBackEXT(
+			VkInstance instance,
+			const VkDebugReportCallbackCreateInfoEXT* pCreateInfo,
+			const VkAllocationCallbacks* pAllocator,
+			VkDebugReportCallbackEXT* pCallback
+
+		) {
+			auto func = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
+			if (func != nullptr)
+			{
+				return func(instance, pCreateInfo, pAllocator, pCallback);
+			}
+			else
+			{
+				return VK_ERROR_EXTENSION_NOT_PRESENT;
+			}
+		};
+		static void DestroyDebugReportCallBackEXT(
+			VkInstance instance, 
+			VkDebugReportCallbackEXT callback,
+			const VkAllocationCallbacks* pAllocator
+			)
+		{
+			auto func = (PFN_vkDestroyDebugReportCallbackEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
+
+			if (func != nullptr)
+			{
+				func(instance, callback, pAllocator);
+			}
+		};
 
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 			VkDebugReportFlagsEXT flags,
@@ -42,7 +72,7 @@ namespace GameEngine
 		///Vulkan Handles
 		VDeleter<VkInstance> instance{ vkDestroyInstance };
 
-		VDeleter<VkDebugReportCallbackEXT> callBack{instance}
+		VDeleter<VkDebugReportCallbackEXT> callBack{instance, DestroyDebugReportCallBackEXT };
 		const std::vector<const char*> validationLayers = {"VK_LAYER_LUNARG_standard_validation"};
 		//only happens in debug
 #ifdef NDEBUG

@@ -71,16 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\VulkanSDK\1.1.73.0\Include;C:\Users\Jacob\GameEngine\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\include;C:\Users\Jacob\GameEngine\Libraries\glm-0.9.8.5\glm;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Jacob\GameEngine\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\VulkanSDK\1.1.73.0\Lib32;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VulkanSDK\1.1.73.0\Include;C:\Users\Jacob\GameEngine\Game_Engine_Vulkan\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\include;C:\Users\Jacob\GameEngine\Libraries\glm-0.9.8.5\glm;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jacob\GameEngine\Game_Engine_Vulkan\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\VulkanSDK\1.1.73.0\Lib32;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\VulkanSDK\1.1.73.0\Include;C:\Users\Jacob\GameEngine\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\include;C:\Users\Jacob\GameEngine\Libraries\glm-0.9.8.5\glm;$(SolutionDir);$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Jacob\GameEngine\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\VulkanSDK\1.1.73.0\Lib32;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VulkanSDK\1.1.73.0\Include;C:\Users\Jacob\GameEngine\Game_Engine_Vulkan\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\include;C:\Users\Jacob\GameEngine\Libraries\glm-0.9.8.5\glm;$(SolutionDir);$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jacob\GameEngine\Game_Engine_Vulkan\Libraries\glfw-3.2.1.bin.WIN32\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\VulkanSDK\1.1.73.0\Lib32;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
