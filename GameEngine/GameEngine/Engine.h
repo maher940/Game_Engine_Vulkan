@@ -4,6 +4,17 @@
 #include<vector>
 namespace GameEngine
 {
+
+	struct QueueFamilyIndices
+	{
+		int graphicsFamily = -1;
+
+		bool isComplete()
+		{
+			return graphicsFamily >= 0;
+		}
+	};
+
 	class Engine
 	{
 	public:
@@ -20,6 +31,12 @@ namespace GameEngine
 		std::vector<const char*> GetRequiredExtensions();
 
 		void SetupDebugCallback();
+
+		void GetPhysicalDevices();
+		int RateDeviceSuitability(VkPhysicalDevice deviceToRate);
+		void CreateLogicalDevice();
+
+		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 
 		VkResult CreateDebugReportCallBackEXT(
 			VkInstance instance,
@@ -68,12 +85,19 @@ namespace GameEngine
 		
 		
 		};
-
+		const std::vector<const char*> validationLayers = { "VK_LAYER_LUNARG_standard_validation" };
 		///Vulkan Handles
 		VDeleter<VkInstance> instance{ vkDestroyInstance };
 
 		VDeleter<VkDebugReportCallbackEXT> callBack{instance, DestroyDebugReportCallBackEXT };
-		const std::vector<const char*> validationLayers = {"VK_LAYER_LUNARG_standard_validation"};
+		
+		VkPhysicalDevice physcialDevice = VK_NULL_HANDLE;
+
+		//needs to be under the instance
+		VDeleter<VkDevice>logicalDevice{ vkDestroyDevice };
+
+		VkQueue graphicsQueue;
+
 		//only happens in debug
 #ifdef NDEBUG
 		const bool enableValidationLayers = false;
