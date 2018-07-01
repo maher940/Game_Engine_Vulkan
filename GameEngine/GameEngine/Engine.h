@@ -2,17 +2,25 @@
 #include<vulkan\vulkan.h>
 #include "VDeleter.h"
 #include<vector>
+#include"Window.h"
 namespace GameEngine
 {
 
 	struct QueueFamilyIndices
 	{
-		int graphicsFamily = -1;
+		int displayFamily = -1;
 
 		bool isComplete()
 		{
-			return graphicsFamily >= 0;
+			return displayFamily >= 0;
 		}
+	};
+
+	struct SwapChainSupportDetails
+	{
+		VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentMode;
 	};
 
 	class Engine
@@ -23,6 +31,8 @@ namespace GameEngine
 
 		void InitVulkan();
 
+		Window windowobject;
+
 	private:
 		void CreateInstance();
 		
@@ -31,12 +41,22 @@ namespace GameEngine
 		std::vector<const char*> GetRequiredExtensions();
 
 		void SetupDebugCallback();
-
+		void CreateSurface();
 		void GetPhysicalDevices();
 		int RateDeviceSuitability(VkPhysicalDevice deviceToRate);
 		void CreateLogicalDevice();
-
+		void CreateSwapChain();
+		void CreateImageViews();
 		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+
+		bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+
+		SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
+
+		VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+
+		VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
+		VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilites);
 
 		VkResult CreateDebugReportCallBackEXT(
 			VkInstance instance,
@@ -86,17 +106,31 @@ namespace GameEngine
 		
 		};
 		const std::vector<const char*> validationLayers = { "VK_LAYER_LUNARG_standard_validation" };
+
+		const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 		///Vulkan Handles
 		VDeleter<VkInstance> instance{ vkDestroyInstance };
 
 		VDeleter<VkDebugReportCallbackEXT> callBack{instance, DestroyDebugReportCallBackEXT };
 		
+		VDeleter<VkSurfaceKHR> surface{instance, vkDestroySurfaceKHR};
+
 		VkPhysicalDevice physcialDevice = VK_NULL_HANDLE;
 
 		//needs to be under the instance
 		VDeleter<VkDevice>logicalDevice{ vkDestroyDevice };
 
-		VkQueue graphicsQueue;
+		VkQueue displayQueue;
+
+		VDeleter<VkSwapchainKHR> swapChain{logicalDevice, vkDestroySwapchainKHR};
+
+		std::vector<VkImage> swapChainImages;
+
+		std::vector<VDeleter<VkImageView>>swapChainIMageViews;
+		
+		//store swap chain details
+		VkFormat swapChainImageFormat;
+		VkExtent2D swapChainExtent;
 
 		//only happens in debug
 #ifdef NDEBUG

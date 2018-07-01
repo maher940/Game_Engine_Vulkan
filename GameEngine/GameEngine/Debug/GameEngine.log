@@ -1,2 +1,6 @@
 ﻿  Engine.cpp
+c:\users\jacob\gameengine\game_engine_vulkan\gameengine\gameengine\engine.cpp(502): warning C4838: conversion from 'int' to 'uint32_t' requires a narrowing conversion
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Window.cpp
   GameEngine.vcxproj -> C:\Users\Jacob\GameEngine\Game_Engine_Vulkan\GameEngine\Debug\GameEngine.lib
